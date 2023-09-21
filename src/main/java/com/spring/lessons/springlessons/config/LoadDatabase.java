@@ -1,4 +1,4 @@
-package com.spring.lessons.springlessons;
+package com.spring.lessons.springlessons.config;
 
 import com.spring.lessons.springlessons.domain.Person;
 import com.spring.lessons.springlessons.repository.PersonRepository;
@@ -15,8 +15,8 @@ public class LoadDatabase {
     CommandLineRunner initDatabase(PersonRepository repository) {
 
         return args -> {
-            log.info("Preloading " + repository.save(new Person(1L, "Soufiane")));
-            log.info("Preloading " + repository.save(new Person(2L, "Halima")));
+            log.info("Preloading " + repository.save(new Person(1L, "Soufiane", "Mr")));
+            log.info("Preloading " + repository.save(new Person(2L, "Halima", "Mme")));
         };
     }
 }

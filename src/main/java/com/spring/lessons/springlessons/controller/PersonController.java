@@ -1,13 +1,17 @@
 package com.spring.lessons.springlessons.controller;
 
+import com.spring.lessons.springlessons.controller.response.ApiResponse;
 import com.spring.lessons.springlessons.domain.Person;
+import com.spring.lessons.springlessons.dto.PersonDto;
 import com.spring.lessons.springlessons.exception.PersonNotFoundException;
 import com.spring.lessons.springlessons.repository.PersonRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -17,14 +21,17 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class PersonController {
 
     private final PersonRepository personRepository;
+    private final ModelMapper modelMapper;
 
-    public PersonController(PersonRepository personRepository) {
+    public PersonController(PersonRepository personRepository, ModelMapper modelMapper) {
         this.personRepository = personRepository;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/persons")
-    public Iterable<Person> findAllPersons() {
-        return this.personRepository.findAll();
+    public Iterable<PersonDto> findAllPersons() {
+        return this.personRepository.findAll().stream().map(person -> modelMapper.map(person, PersonDto.class))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -51,14 +58,48 @@ public class PersonController {
      * @throws PersonNotFoundException
      */
     @GetMapping("/persons/{id}")
-    EntityModel<Person> one(@PathVariable Long id) throws PersonNotFoundException {
+    EntityModel<PersonDto> one(@PathVariable Long id) throws PersonNotFoundException {
 
-        Person employee = personRepository.findById(id)
+        Person person = personRepository.findById(id)
                 .orElseThrow(() -> new PersonNotFoundException(id));
 
+        PersonDto personResponse = modelMapper.map(person, PersonDto.class);
+
+
         //hateoas  : ajout des liens
-        return EntityModel.of(employee, //
+        return EntityModel.of(personResponse, //
                 linkTo(methodOn(PersonController.class).one(id)).withSelfRel(),
                 linkTo(methodOn(PersonController.class).findAllPersons()).withRel("persons"));
+    }
+
+
+    @PostMapping("/persons")
+    public PersonDto addOneEmployee(@RequestBody PersonDto employeeDto) {
+        // convert DTO to entity
+        Person personRequest = modelMapper.map(employeeDto, Person.class);
+        Person person = this.personRepository.save(personRequest);
+        // convert entity to DTO
+        return  modelMapper.map(person, PersonDto.class);
+    }
+
+    @PutMapping("/persons/{id}")
+    public ResponseEntity<PersonDto> updatePost(@PathVariable long id, @RequestBody PersonDto postDto) {
+
+        // convert DTO to Entity
+        Person postRequest = modelMapper.map(postDto, Person.class);
+        postRequest.setId(id);
+        Person person = personRepository.save(postRequest);
+
+        // entity to DTO
+        PersonDto personResponse = modelMapper.map(person, PersonDto.class);
+
+        return ResponseEntity.ok().body(personResponse);
+    }
+
+    @DeleteMapping("persons/{id}")
+    public ResponseEntity<ApiResponse> deletePerson(@PathVariable(name = "id") Long id) {
+        personRepository.deleteById(id);
+        ApiResponse apiResponse = new ApiResponse(Boolean.TRUE, "Post deleted successfully", HttpStatus.OK);
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
     }
 }
