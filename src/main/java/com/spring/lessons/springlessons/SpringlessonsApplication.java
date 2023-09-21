@@ -11,9 +11,6 @@ public class SpringlessonsApplication {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext app = SpringApplication.run(SpringlessonsApplication.class, args);
-		//Arrays.stream(conf.getBeanDefinitionNames()).forEach(System.out::println);
-
-
 	}
 
 }

@@ -1,0 +1,13 @@
+
+spring:
+  datasource:
+    platform: mariadb
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3309/springlessons
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+server:
+    port: 8080

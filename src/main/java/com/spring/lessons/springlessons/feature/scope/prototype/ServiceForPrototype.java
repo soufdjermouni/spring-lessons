@@ -7,6 +7,7 @@ public class ServiceForPrototype {
 
     private final PrototypeScope prototype1;
     private final PrototypeScope prototype2;
+
     public ServiceForPrototype(PrototypeScope prototype1, PrototypeScope prototype2) {
         this.prototype1 = prototype1;
         this.prototype2 = prototype2;

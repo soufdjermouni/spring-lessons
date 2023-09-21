@@ -5,11 +5,11 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 @RestController
 @RequestMapping(value = "/hello", produces = MediaType.APPLICATION_JSON_VALUE)
 public class HelloController {
 
+    public static final String HELLO = "Hello";
     private final RequestScopeBean requestScopeBean;
 
     public HelloController(RequestScopeBean requestScopeBean) {
@@ -20,6 +20,6 @@ public class HelloController {
     @GetMapping
     public String getAll() {
         System.out.println("RequestScopeBean: "+requestScopeBean);
-        return "Hello";
+        return HELLO;
     }
 }
