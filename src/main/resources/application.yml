@@ -9,5 +9,19 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  # Enable global CORS configuration
+  mvc:
+    cors:
+      allowed-origins: "*"
+
+
 server:
     port: 8080
+
+
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

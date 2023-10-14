@@ -1,4 +1,4 @@
-package com.spring.lessons.springlessons.controller.response;
+package com.spring.lessons.springlessons.controller.utils.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

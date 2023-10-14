@@ -1,6 +1,6 @@
 package com.spring.lessons.springlessons.controller;
 
-import com.spring.lessons.springlessons.controller.response.ApiResponse;
+import com.spring.lessons.springlessons.controller.utils.response.ApiResponse;
 import com.spring.lessons.springlessons.domain.Person;
 import com.spring.lessons.springlessons.dto.PersonDto;
 import com.spring.lessons.springlessons.exception.PersonNotFoundException;
@@ -17,7 +17,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/public")
 public class PersonController {
 
     private final PersonRepository personRepository;
@@ -64,7 +64,6 @@ public class PersonController {
                 .orElseThrow(() -> new PersonNotFoundException(id));
 
         PersonDto personResponse = modelMapper.map(person, PersonDto.class);
-
 
         //hateoas  : ajout des liens
         return EntityModel.of(personResponse, //

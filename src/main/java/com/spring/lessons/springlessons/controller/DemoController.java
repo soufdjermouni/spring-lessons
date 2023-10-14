@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
-@RequestMapping("/api")
+@RequestMapping("/api/public")
 public class DemoController {
     
     //Get localhost:8080/hello?name=soufiane

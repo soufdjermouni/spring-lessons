@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/public")
 public class CityController {
 
     private final CityRepository cityRepository;
@@ -22,6 +22,7 @@ public class CityController {
 
     @GetMapping(value = "/cities/{id}")
     public City getCity(@PathVariable Long id) {
+        System.out.println("je suis ma ");
         return cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException(id));
     }
 
