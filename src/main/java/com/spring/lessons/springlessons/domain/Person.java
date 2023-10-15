@@ -1,8 +1,6 @@
 package com.spring.lessons.springlessons.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +10,7 @@ import javax.persistence.Id;
 @Entity
 @Setter
 @Getter
+@Builder
 @AllArgsConstructor
 public class Person {
     @Id
@@ -19,6 +18,7 @@ public class Person {
     private Long id;
     private String name;
     private String genre;
+    private String email;
 
     private Person(){
     }

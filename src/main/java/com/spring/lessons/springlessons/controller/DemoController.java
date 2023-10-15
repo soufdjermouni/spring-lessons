@@ -1,24 +1,26 @@
 package com.spring.lessons.springlessons.controller;
 
 import com.spring.lessons.springlessons.common.annotation.Log;
+import com.spring.lessons.springlessons.service.GreetingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
 @RequestMapping("/api/public")
+@RequiredArgsConstructor
 public class DemoController {
-    
+
+    private final GreetingService greetingService;
+
     //Get localhost:8080/hello?name=soufiane
     @Log
     @GetMapping("/hello")
@@ -33,5 +35,15 @@ public class DemoController {
                     content = @Content)})
     ResponseEntity<String> ping(@RequestParam String name){
         return ResponseEntity.ok(String.format("Hello %S!", name));
+    }
+
+    @GetMapping("/greeting")
+    public @ResponseBody String greeting() {
+        return "Hello, World";
+    }
+
+    @GetMapping("/greet")
+    public @ResponseBody String greet() {
+        return greetingService.greet();
     }
 }
