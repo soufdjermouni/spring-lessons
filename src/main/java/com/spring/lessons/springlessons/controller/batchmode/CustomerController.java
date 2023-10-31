@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.List;
 
@@ -66,4 +67,12 @@ public class CustomerController {
         }
         return ResponseEntity.ok("Bien déroulé");
     }
+
+    @GetMapping("{id}")
+    private Customer getCustomer (@PathVariable Long id) {
+        return customerRepository.findById(id)
+                .orElseThrow(()  -> new RuntimeException("foo")); //Ne pas faire comme ça
+    }
+
+    record CustomerResponse(@NotNull String firstName, String lastName){};
 }

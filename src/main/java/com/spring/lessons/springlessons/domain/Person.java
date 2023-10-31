@@ -1,17 +1,19 @@
 package com.spring.lessons.springlessons.domain;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@DynamicUpdate
 @Setter
 @Getter
 @Builder
 @AllArgsConstructor
+@NamedQuery(
+        name = "Person.findByEmail",
+        query = "SELECT p FROM Person p WHERE p.email = ?1")
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

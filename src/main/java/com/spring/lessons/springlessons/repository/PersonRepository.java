@@ -18,4 +18,7 @@ public interface  PersonRepository extends JpaRepository<Person, Long> {
             value = "SELECT * FROM USER AS u WHERE u.name = :name",
             nativeQuery = true)
     Person findByNameNative (@Param("name") String name);
+
+    public Person findByEmail(String email);
+
 }

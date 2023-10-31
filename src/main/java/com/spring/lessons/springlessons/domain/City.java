@@ -17,6 +17,7 @@ public class City {
     private Long id;
 
     @NotEmpty
+    @Column(name = "name")
     private String name;
 
     @Range(min=10, max=100_000_000)

@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -27,13 +28,31 @@ import static org.assertj.core.api.Assertions.assertThat;
 class PersonRepositoryTest {
 
     @Autowired
+    private PersonRepository personRepository;
+
+    @Autowired
     private DataSource dataSource;
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private EntityManager entityManager;
-    @Autowired
-    private PersonRepository personRepository;
+
+    @Test
+    void findByEmail() {
+        Person person  = getPerson();
+        personRepository.save(person);
+        Person result = personRepository.findByEmail(person.getEmail());
+        assertNotNull(result);
+    }
+
+    private Person getPerson() {
+        return Person
+                .builder()
+                .name("Toto Titi")
+                .genre("M")
+                .email("toto.titi@gmail.com")
+                .build();
+    }
 
     @Test
     void injectedComponentsAreNotNull(){
@@ -64,4 +83,5 @@ class PersonRepositoryTest {
                 .name("Hurley")
                 .build());
     }
+
 }

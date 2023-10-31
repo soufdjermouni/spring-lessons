@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -32,6 +33,19 @@ public class PersonController {
     public Iterable<PersonDto> findAllPersons() {
         return this.personRepository.findAll().stream().map(person -> modelMapper.map(person, PersonDto.class))
                 .collect(Collectors.toList());
+    }
+
+    // Sans DynamicUpdate : Hibernate: update person set email=?, genre=?, name=? where id=?
+    @GetMapping("/person/testdynamicupdate")
+    public @ResponseBody String testdynamicupdate() {
+
+        Optional<Person> account = personRepository.findById(2L);
+        if(account.isPresent()){
+            account.get().setName("Hlimaaaaaaaaaaaaa");
+            personRepository.save(account.get());
+        }
+
+        return "Ok";
     }
 
     /**
