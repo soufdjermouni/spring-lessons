@@ -1,0 +1,13 @@
+eip:
+  directory:
+    messages:
+      root: /messages
+      depot: /messages/4eip
+      conserve: /messages/4eip/conserve
+      rejet: /messages/4eip/rejet
+  timers:
+    proc: 5000
+  parameters:
+    nbThreadsForPROC: 1
+    usedDiskSpacePercentageMax:
+      messages: 90
